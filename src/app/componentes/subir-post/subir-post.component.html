@@ -1,0 +1,11 @@
+<div class="row bg-sucess justify-content-center" *ngFor="let post_a of post">
+    <div class="card" style="width: 50rem;">
+        <h2 aling="left">{{post_a.NickName}}</h2>
+            <p class="card-text">{{post_a.header_post}}</p>
+        <img src="https://ep01.epimg.net/elpais/imagenes/2019/10/30/album/1572424649_614672_1572453030_noticia_normal.jpg" class="card-img-bottom" alt="...">
+        <div class="card-body" >
+            <button type="button" class="btn btn-secondary btn-lg float-right">Comentar</button>
+            <button type="button" class="btn btn-primary btn-lg float-right">Me gusta</button>
+            <p>{{post_a.time}}</p>
+        </div>
+</div>

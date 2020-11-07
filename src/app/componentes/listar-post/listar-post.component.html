@@ -1,0 +1,17 @@
+<app-nav></app-nav>
+<br>
+<br>
+<div class="row bg-sucess justify-content-center" *ngFor="let post_a of post">
+    <div class="card" style="width: 50rem;margin-bottom: 40px;border-left-width: 5px;border-right-width: 5px;">
+        <h2 style="padding-left: 30px;padding-top: 20px;">
+            <img src="{{post_a.ImagenPerfil}}" alt="" class="rounded-circle" style="width: 50px;height: 50px;">
+            {{post_a.Apodo}}
+        </h2>
+            <p class="card-text" style="padding-left: 40px;padding-bottom: 20px;">{{post_a.header_post}}</p>
+        <img src="{{post_a.data}}" class="card-img-bottom" >
+        <div class="card-body" >
+            <button type="button" class="btn btn-secondary btn-lg float-right">Comentar</button>
+            <button type="button" class="btn btn-primary btn-lg float-right">Me gusta</button>
+            <p>{{post_a.time}}</p>
+        </div>
+</div>
