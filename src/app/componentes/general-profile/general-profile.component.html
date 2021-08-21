@@ -1,0 +1,136 @@
+<app-nav></app-nav>
+<br />
+<br />
+<br />
+<div class="row bg-sucess justify-content-center" *ngFor="let post_a of post">
+  <div
+    class="card"
+    style="
+      width: 50rem;
+      margin-bottom: 40px;
+      border-left-width: 5px;
+      border-right-width: 5px;
+    "
+  >
+    <h2 style="padding-left: 30px; padding-top: 20px">
+      <img
+        src="{{ puerto + post_a.ImagenPerfil }}"
+        alt=""
+        class="rounded-circle"
+        style="width: 50px; height: 50px"
+      />
+      {{ post_a.Apodo }}
+    </h2>
+    <h2 style="padding-left: 30px; padding-top: 20px">
+      {{ post_a.TituloPublicacion }}
+    </h2>
+    <p class="card-text" style="padding-left: 40px; padding-bottom: 20px">
+      {{ post_a.CuerpoPublicacion }}
+    </p>
+    <img src="{{ puerto + post_a.DireccionImagen }}" class="card-img-bottom" />
+    <div class="card-body">
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg float-right"
+        (click)="mostrarComentario(post_a.IdPublicacion)"
+      >
+        Comentarios {{ post_a.coments }}
+      </button>
+      <button type="button" class="btn btn-primary btn-lg float-right">
+        Me gusta
+      </button>
+      <p>{{ post_a.FechaPublicacion }}</p>
+      <br />
+      <form [formGroup]="comentarioData">
+        <div class="input-group mb-3">
+          <img
+            src="{{ puerto + data2.ImagenPerfil }}"
+            alt=""
+            class="rounded-circle"
+            style="width: 39px; height: 39px"
+          />
+          <input
+            type="text"
+            formControlName="CuerpoComentario"
+            class="form-control rounded-pill"
+            placeholder="Comentar"
+          />
+          <div>
+            <label for="CuerpoComentario"></label>
+            <input
+              class="form-control"
+              type="file"
+              accept=".png, .jpg, .jpeg, .gift"
+              hidden
+              (change)="fotoPreview($event, post_a.IdPublicacion)"
+              #fotoclick
+            />
+            <img
+              [src]="'assets/camara.png'"
+              alt="subir imagen"
+              class="rounded-circle"
+              (click)="fotoclick.click()"
+              style="width: 35px; height: 35px"
+            />
+          </div>
+          <div class="form-group">
+            <button
+              hidden
+              [disabled]="comentarioData.invalid"
+              class="btn btn-primary"
+              type="submit"
+              (click)="
+                crearComentario(post_a.IdPublicacion, data2.IdUsuario, 1)
+              "
+            ></button>
+          </div>
+        </div>
+        <img
+          *ngIf="commentImage && post_a.IdPublicacion == publicacion"
+          [src]="photoSelected"
+          alt="sin foto de perfil"
+          style="width: 30%; height: 30%"
+        />
+
+        <div *ngIf="activar && publicacion == post_a.IdPublicacion">
+          <div *ngFor="let comentarios of listComentarios">
+            <br />
+            <div class="media">
+              <img
+                src="{{ puerto + comentarios.ImagenPerfil }}"
+                alt=""
+                class="rounded-circle mr-3"
+                style="width: 39px; height: 39px"
+              />
+              <div class="media-body">
+                <h5 class="mt-0">{{ comentarios.Apodo }}</h5>
+                {{ comentarios.CuerpoComentario }}
+              </div>
+            </div>
+            <img
+              src="{{ puerto + comentarios.DireccionImagen }}"
+              style="width: 30%; height: 30%"
+              class="card-img-bottom"
+            />
+            <br />
+          </div>
+          
+          <button
+          *ngIf="(listComentarios.length-2)%5==0"
+            class="btn btn-link"
+            (click)="cargarMas(post_a.IdPublicacion,listComentarios.length)"
+          >
+            ver mas
+          </button>
+          <button
+            *ngIf="(listComentarios.length-2)%5!=0"
+            class="btn btn-link"
+            (click)="cargarMenos(post_a.IdPublicacion)"
+          >
+            ver menos
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

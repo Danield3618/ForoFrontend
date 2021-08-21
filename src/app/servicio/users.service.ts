@@ -25,8 +25,8 @@ export class UsersService {
     return this.http.get(`${this.direccion}/profile/`+nick);
   }
 
-  genero(){
-    return this.http.get(`${this.direccion}/genero`);
+  tipoPersona(){
+    return this.http.get(`${this.direccion}/tipoPersona`);
   }
 
   register_user(user:usuario){

@@ -1,36 +1,110 @@
 <div class="modal-dialog text-center">
-    <div class="col-xl-12">
-        <div class="modal-content">
-            <div id="alertas">
-                <div class="alert alert-danger" role="alert" *ngIf="loginModel.get('Apodo').hasError('required') && loginModel.get('Apodo').touched">
-                    Campo NickName requerido
-                </div>
-                <div class="alert alert-danger" role="alert" *ngIf="loginModel.get('Password').hasError('required') && loginModel.get('Password').touched">
-                    Campo Contraseña requerido
-                </div>
-                <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
-                    usuario o contraseña incorrectos
-                </div>
-            </div>
-            <form class="col-lg-12" [formGroup]="loginModel">
-                <div class="form-group">
-                    <label for="usuario">Usuario</label>
-                    <input formControlName="Apodo" class="form-control" type="text" placeholder="Ingresar usuario" >
-                </div>
-                <div class="form-group">
-                    <label for="password" >Contraseña</label>
-                    <input formControlName="Password" class="form-control" type="password" placeholder="Ingresar contraseña" >
-                </div>
-                <div class="form-group">
-                    <button [disabled]="loginModel.invalid" class="btn btn-primary" (click)="Check_user()">Ingresar</button>
-                </div>
-                <div class="col-12">
-                    <a href="#">Recuperar contraseña</a>
-                </div>
-                <div class="col-12">
-                    <a href="http://localhost:4200/create" >Crear una cuenta</a>
-                </div>
-            </form>
+  <div class="col-xl-12">
+    <div class="modal-content">
+      <div id="alertas">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="
+            loginModel.get('Apodo').hasError('required') &&
+            loginModel.get('Apodo').touched
+          "
+        >
+          Campo NickName requerido
         </div>
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="
+            loginModel.get('Password').hasError('required') &&
+            loginModel.get('Password').touched
+          "
+        >
+          Campo Contraseña requerido
+        </div>
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="
+            loginModel.get('Password').hasError('pattern') ||
+            (loginModel.get('Apodo').hasError('pattern') &&
+              (loginModel.get('Password').touched ||
+                loginModel.get('Apodo').touched))
+          "
+        >
+          Sin caracteres especiales
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+          usuario o contraseña incorrectos
+        </div>
+      </div>
+      <form class="col-lg-12" [formGroup]="loginModel">
+        <div class="form-group">
+          <label for="usuario">Usuario</label>
+          <input
+            formControlName="Apodo"
+            class="form-control"
+            type="text"
+            placeholder="Ingresar usuario"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div *ngIf="!auxMostrar" class="input-group mb-3">
+            <input
+              formControlName="Password"
+              type="password"
+              class="form-control"
+              placeholder="Ingresar contraseña"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+              >
+                <img src="../../../assets/mostrar.png" (click)="mostrar()" 
+                style="width: 25px; height: 15px"/>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="auxMostrar" class="input-group mb-3">
+            <input
+              formControlName="Password"
+              type="text"
+              class="form-control"
+              placeholder="Ingresar contraseña"
+              [value]="textRaw"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+                [value]="textRaw"
+              >
+                <img src="../../../assets/nomostrar.png" (click)="noMostrar()"
+                style="width: 25px; height: 20px"/>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button
+            [disabled]="loginModel.invalid"
+            class="btn btn-primary"
+            (click)="Check_user()"
+          >
+            Ingresar
+          </button>
+        </div>
+        <div class="col-12">
+          <a href="#">Recuperar contraseña</a>
+        </div>
+        <div class="col-12">
+          <a href="http://localhost:4200/create">Crear una cuenta</a>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

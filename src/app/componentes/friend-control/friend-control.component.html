@@ -1,22 +1,53 @@
-<!--<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="login.component.css">
-    </head>
-    <body>
-    <div class="box">
-        <h1>Login</h1>
-        <form>
-            <label for="usuario">usuario</label>
-            <input id="log_input" type="text" name="NickName" [(ngModel)]="login_u.NickName" placeholder="Ingresar usuario" >
-            <label for="password" >contraseña</label>
-            <input id="log_input" type="password" name="Password" [(ngModel)]="login_u.Password" placeholder="Ingresar contraseña" >
-            <button (click)="Check_user()">Ingresar</button>
-            <br>
-            <br>
-            <a href="#">recuperar contraseña</a>
-            <a href="#">crear una cuenta</a>
-        </form>
+
+<div class="row bg-sucess justify-content-center" *ngFor="let amigo of amigos">
+  <div
+    class="card bg-light mb-3"
+    style="
+      width: 50rem;
+      margin-bottom: 40px;
+      border-left-width: 5px;
+      border-right-width: 5px;
+    "
+  >
+    <div class="card-header">
+      <div >
+          
+        <h2>
+          <img
+            src="{{ puerto + amigo.ImagenPerfil }}"
+            alt=""
+            class="rounded-circle"
+            style="width: 80px; height: 80px"
+          />
+          {{ amigo.Apodo }}
+          <button
+            type="button"
+            class="btn btn-ligth float-right"
+            data-toggle="modal"
+          >
+            <img
+              src="../../../assets/espera.png"
+              alt="Borrar"
+              style="width: 35px; height: 35px"
+              (click)="aceptar(amigo.IdAmigo,amigo.IdUsuarioFromFK,amigo.IdUsuarioToFK)"
+            />
+          </button>
+          <button
+          type="button"
+          class="btn btn-ligth float-right"
+          data-toggle="modal"
+        >
+          <img
+            src="../../../assets/rechazar.png"
+            alt="Borrar"
+            style="width: 35px; height: 35px"
+            (click)="rechazar(amigo.IdAmigo)"
+          />
+        </button>
+        </h2>
+        
+      </div>
+      
     </div>
-    </body>
-</html>-->
+  </div>
+</div>

@@ -14,7 +14,12 @@ import { LoginComponent } from './componentes/login/login.component';
 import {PostsService} from './servicio/posts.service'
 import {LoginService} from './servicio/login.service';
 import { UserCreateComponent } from './componentes/user-create/user-create.component';
-import { ProfileComponent } from './componentes/profile/profile.component'
+import { ProfileComponent } from './componentes/profile/profile.component';
+import { EditarPostComponent } from './componentes/editar-post/editar-post.component';
+import { ComentarioComponent } from './componentes/comentario/comentario.component';
+import { GeneralProfileComponent } from './componentes/general-profile/general-profile.component';
+import { ResultadosComponent } from './componentes/resultados/resultados.component';
+import { ChatComponent } from './componentes/chat/chat.component'
 
 @NgModule({
   declarations: [
@@ -26,7 +31,12 @@ import { ProfileComponent } from './componentes/profile/profile.component'
     ListFriendsComponent,
     LoginComponent,
     UserCreateComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditarPostComponent,
+    ComentarioComponent,
+    GeneralProfileComponent,
+    ResultadosComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

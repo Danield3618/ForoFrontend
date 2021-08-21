@@ -23,4 +23,5 @@ export class LoginService {
   checkSession(session:string){
     return this.http.get(`${this.direccion}/`+session);
   }
+
 }

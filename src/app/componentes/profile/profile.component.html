@@ -1,17 +1,236 @@
 <app-nav></app-nav>
-<br>
-<br>
+<br />
+<br />
+<br />
 <div class="row bg-sucess justify-content-center" *ngFor="let data_u of data2">
-    <div class="card" style="width: 50rem;margin-bottom: 40px;border-left-width: 5px;border-right-width: 5px;">
-        <h2 style="padding-left: 30px;padding-top: 20px;">
-            <img src="{{data_u.img_profile}}" alt="" class="rounded-circle" style="width: 50px;height: 50px;">
-            {{data_u.NickName}}
-        </h2>
-            <p class="card-text" style="padding-left: 40px;padding-bottom: 20px;">{{data_u.header_post}}</p>
-        <img src="{{data_u.data}}" class="card-img-bottom" >
-        <div class="card-body" >
-            <button type="button" class="btn btn-secondary btn-lg float-right">Comentar</button>
-            <button type="button" class="btn btn-primary btn-lg float-right">Me gusta</button>
-            <p>{{data_u.time}}</p>
+  <div
+    class="card"
+    style="
+      width: 50rem;
+      margin-bottom: 40px;
+      border-left-width: 5px;
+      border-right-width: 5px;
+    "
+  >
+    <h2 style="padding-left: 30px; padding-top: 20px; padding-right: 30px">
+      <img
+        src="{{ puerto + data_u.ImagenPerfil }}"
+        alt=""
+        class="rounded-circle"
+        style="width: 50px; height: 50px"
+      />
+      {{ data_u.Apodo }}
+      <button
+        type="button"
+        class="btn btn-danger float-right"
+        data-toggle="modal"
+        data-target="#Borrar"
+        (click)="idPost(data_u.IdPublicacion)"
+      >
+        <img
+          src="../../../assets/basura.png"
+          alt="Borrar"
+          style="width: 25px; height: 25px"
+        />
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning float-right"
+        data-toggle="modal"
+        data-target="#Editar"
+        (click)="idPost(data_u.IdPublicacion)"
+      >
+        <img
+          src="../../../assets/lapiz.png"
+          alt="Editar"
+          style="width: 25px; height: 25px"
+        />
+      </button>
+    </h2>
+
+    <h2 style="padding-left: 30px; padding-top: 20px">
+      {{ data_u.TituloPublicacion }}
+    </h2>
+    <p class="card-text" style="padding-left: 40px; padding-bottom: 20px">
+      {{ data_u.CuerpoPublicacion }}
+    </p>
+    <img src="{{ puerto + data_u.DireccionImagen }}" class="card-img-bottom" />
+    <div class="card-body">
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg float-right"
+        (click)="mostrarComentario(data_u.IdPublicacion)"
+      >
+        Comentarios {{ data_u.coments }}
+      </button>
+      <button type="button" class="btn btn-primary btn-lg float-right">
+        Me gusta
+      </button>
+      <p>{{ data_u.FechaPublicacion }}</p>
+      <br />
+      <form [formGroup]="comentarioData">
+        <div class="input-group mb-3">
+          <img
+            src="{{ puerto + data_u.ImagenPerfil }}"
+            alt=""
+            class="rounded-circle"
+            style="width: 39px; height: 39px"
+          />
+          <input
+            type="text"
+            formControlName="CuerpoComentario"
+            class="form-control rounded-pill"
+            placeholder="Comentar"
+          />
+          <div>
+            <label for="CuerpoComentario"></label>
+            <input
+              class="form-control"
+              type="file"
+              accept=".png, .jpg, .jpeg, .gift"
+              hidden
+              (change)="fotoPreview($event, data_u.IdPublicacion)"
+              #fotoclick
+            />
+            <img
+              [src]="'assets/camara.png'"
+              alt="subir imagen"
+              class="rounded-circle"
+              (click)="fotoclick.click()"
+              style="width: 35px; height: 35px"
+            />
+          </div>
+          <div class="form-group">
+            <button
+              hidden
+              [disabled]="comentarioData.invalid"
+              class="btn btn-primary"
+              type="submit"
+              (click)="
+                crearComentario(data_u.IdPublicacion, dataaux.IdUsuario, 1)
+              "
+            ></button>
+          </div>
         </div>
+        <img
+          *ngIf="commentImage && data_u.IdPublicacion == publicacion"
+          [src]="photoSelected"
+          alt="sin foto de perfil"
+          style="width: 236px; height: 236px"
+        />
+        <div *ngIf="activar && publicacion == data_u.IdPublicacion">
+          <div *ngFor="let comentarios of listComentarios">
+            <div class="media">
+              <img
+                src="{{ puerto + comentarios.ImagenPerfil }}"
+                alt=""
+                class="rounded-circle mr-3"
+                style="width: 39px; height: 39px"
+              />
+              <div class="media-body">
+                <h5 class="mt-0">{{ comentarios.Apodo }}</h5>
+                {{ comentarios.CuerpoComentario }}
+              </div>
+            </div>
+            <img
+              src="{{ puerto + comentarios.DireccionImagen }}"
+              style="width: 30%; height: 30%"
+              class="card-img-bottom"
+            />
+
+            <br />
+            <br />
+          </div>
+          <button
+            *ngIf="(listComentarios.length - 2) % 5 == 0"
+            class="btn btn-link"
+            (click)="cargarMas(data_u.IdPublicacion, listComentarios.length)"
+          >
+            ver mas
+          </button>
+          <button
+            *ngIf="(listComentarios.length - 2) % 5 != 0"
+            class="btn btn-link"
+            (click)="cargarMenos(data_u.IdPublicacion)"
+          >
+            ver menos
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="Editar"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">Seguro que quiere editar esta publicacion</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Nop
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="editar()"
+            data-dismiss="modal"
+          >
+            Sip
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="Borrar"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">Seguro quiere eliminar esta publicacion</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Nop
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="eliminar()"
+            data-dismiss="modal"
+          >
+            Sip
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

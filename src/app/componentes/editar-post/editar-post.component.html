@@ -1,0 +1,86 @@
+<app-nav></app-nav>
+<br />
+<br />
+<br />
+<div class="row bg-sucess justify-content-center">
+  <div
+    class="card"
+    style="
+      width: 80rem;
+      margin-bottom: 0px;
+      border-left-width: 5px;
+      border-right-width: 5px;
+    "
+  >
+    <h2 style="padding-left: 30px; padding-top: 20px">
+      <img
+        src="{{ puerto + dataaux.ImagenPerfil }}"
+        class="rounded-circle"
+        style="width: 50px; height: 50px"
+      />
+      {{ dataaux.Apodo }}
+    </h2>
+    <form [formGroup]="editarPost" class="col-lg-12">
+      <div class="form-group">
+        <label for="TituloPublicacion">Titulo</label>
+        <input
+          formControlName="TituloPublicacion"
+          class="form-control"
+          type="text"
+          value="{{ data2.TituloPublicacion }}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="Tema">Tema</label>
+        <select formControlName="IdTemaFK" class="form-control">
+          <option
+            *ngFor="let opt of tema_db"
+            [ngValue]="opt.IdTema"
+            [selected]="data2.IdTemaFK === opt.IdTema"
+          >
+            {{ opt.NombreTema }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imagen">Imagen</label>
+        <br />
+        <input
+          class="form-control"
+          type="file"
+          accept=".png, .jpg, .jpeg, .gif"
+          hidden
+          (change)="fotoPreview($event)"
+          #fotoclick
+        />
+        <img
+          [src]="photoSelected || puerto + data2.DireccionImagen"
+          alt="sin foto de perfil"
+          class="rounded-circle"
+          (click)="fotoclick.click()"
+          style="width: 236px; height: 236px"
+        />
+      </div>
+      <div class="form-group">
+        <label for="CuerpoPublicacion">Descripcion</label>
+        <textarea
+          formControlName="CuerpoPublicacion"
+          class="form-control"
+          rows="3"
+          value="{{ data2.CuerpoPublicacion }}"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <button
+          [disabled]="editarPost.invalid"
+          class="btn btn-primary"
+          type="submit"
+          (click)="actualizarPost()"
+        >
+          Editar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
